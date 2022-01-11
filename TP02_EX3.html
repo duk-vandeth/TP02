@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>draw a live camera video into multiple projection within Canvas</title>
+    <style>
+                body {
+            background-color: rgba(97, 105, 122, 0.5);
+        }
+        
+        .container {
+            display: flex;
+            justify-content: center;
+        }
+        
+        #canvasInput,
+        #canvasOutput {
+            align-items: center;
+            border: 10px solid rgba(153, 153, 153, 0.7);
+            border-top: 5px solid rgba(153, 153, 153, 0.7);
+            background-color: rgba(88, 144, 255, 0.4);
+        }
+        
+        #canvasOutput {
+            margin-left: 17px;
+        }
+        
+        .output {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .output>span {
+            background-color: rgba(153, 153, 153, 0.7);
+            height: 20px;
+            color: #f7f7f7;
+            padding: 10px;
+            font-size: large;
+        }
+        
+        .control {
+            background-color: rgba(153, 153, 153, 0.7);
+            width: 620px;
+        }
+        
+        .control>span {
+            color: #f7f7f7;
+        }
+        
+        .control>div>button {
+            margin-bottom: 5px;
+            color: #f7f7f7;
+            border: 2px solid #f7f7f7;
+            border-radius: 5%;
+            margin-top: 3px;
+        }
+        
+        #start {
+            background-color: rgb(10, 107, 235);
+        }
+        
+        #stop {
+            background-color: rgba(252, 36, 21, 0.8);
+        }
+        #start:hover{
+            border-color: yellowgreen;
+            color: white;
+            box-shadow: 0em 0.5em 0.5em -0.4em yellowgreen;
+            transform: translateY(-0.25em);
+            cursor:pointer;
+        }
+        #stop:hover{
+            border-color: rgb(255, 0, 0);
+            color: white;
+            box-shadow: 0em 0.5em 0.5em -0.4em rgb(255, 0, 0);
+            transform: translateY(-0.25em);
+            cursor:pointer;
+        }
+    </style>
+    
+    
+</head>
+
+<body>
+    <div class="container">
+        <div>
+            <center>
+                <video autoplay hidden></video>
+                <canvas width="600" height="480" id="viewport"></canvas>
+                <div class="control">
+                    <span>Canvas&#128123; : Show your face on me here!</span>
+                    <div>
+                        <button id="start">Start</button>
+                        <button id="stop" hidden>Stop</button>
+                    </div>
+                </div>
+            </center>
+        </div>
+        <div class="output">
+            <span>Mini project with canvas and opencv.js</span>
+            <video autoplay hidden></video>
+            <canvas width="600" height="480" id="viewport"></canvas>
+        </div>
+    </div>
+
+ 
+</body>
+<script>
+    var canvas = document.getElementById('viewport');
+    var video = document.createElement('video');
+    video.autoplay = true
+
+    navigator.mediaDevices.getUserMedia({ audio: false, video:true })
+    .then((stream) => {
+        video.srcObject = stream
+
+        console.log("test");
+        (function loop(){
+            console.log("called");
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height)
+
+            setTimeout(loop, 1000 / 30);
+        
+
+    })();
+}).catch(err => {
+
+})
+</script>
+
+</html>
